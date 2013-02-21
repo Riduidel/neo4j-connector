@@ -66,6 +66,7 @@ This artifact is NOT to be included in client code, but should rather be deploye
 							<goal>shade</goal>
 						</goals>
 						<configuration>
+							<shadedArtifactAttached>true</shadedArtifactAttached>
 							<filters>
 								<filter>
 									<artifact>org.neo4j:neo4j-kernel</artifact>

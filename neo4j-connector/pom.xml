@@ -139,6 +139,8 @@
 					<artifactId>neo4j-graph-algo</artifactId>
 				</exclusion>
 			</exclusions>
+			<classifier>shaded</classifier>
+			<version>${project.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.lucene</groupId>
