@@ -4,14 +4,56 @@
 	<parent>
 		<groupId>com.netoprise</groupId>
 		<artifactId>neo4j-connector-parent</artifactId>
-		<version>0.3-SNAPSHOT</version>
+		<version>1.6-SNAPSHOT</version>
 		<relativePath>../pom.xml</relativePath>
 	</parent>
-
 	<modelVersion>4.0.0</modelVersion>
 	<artifactId>neo4j-connector-impl</artifactId>
+	<description>Java implementation of that connector. This is the project in which the standard JCA concepts are mapped into neo4j realities.
+This artifact is NOT to be included in client code, but should rather be deployed as a part of neo4j-connector RAR</description>
 	<packaging>jar</packaging>
-	<url>http://repository.jboss.org</url>
+	<dependencies>
+		<dependency>
+			<groupId>com.netoprise</groupId>
+			<artifactId>neo4j-connector-api</artifactId>
+		</dependency>
+		<!-- Neo4j -->
+		<dependency>
+			<groupId>org.neo4j</groupId>
+			<artifactId>neo4j-graph-algo</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.neo4j</groupId>
+			<artifactId>neo4j-graph-matching</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.neo4j</groupId>
+			<artifactId>neo4j-lucene-index</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.neo4j</groupId>
+			<artifactId>neo4j-cypher</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.neo4j</groupId>
+			<artifactId>neo4j-jmx</artifactId>
+		</dependency>
+		<!-- JCA API -->
+		<dependency>
+			<groupId>org.jboss.ironjacamar</groupId>
+			<artifactId>ironjacamar-spec-api</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.jboss.javaee</groupId>
+			<artifactId>jboss-transaction-api</artifactId>
+		</dependency>
+		<!-- Tests -->
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<scope>test</scope>
+		</dependency>
+	</dependencies>
 	<build>
 		<plugins>
 			<plugin>
@@ -43,86 +85,4 @@
 			</plugin>
 		</plugins>
 	</build>
-	<dependencies>
-		<dependency>
-			<groupId>com.netoprise</groupId>
-			<artifactId>neo4j-connector-api</artifactId>
-		</dependency>
-		<!-- Neo4j -->
-		<dependency>
-			<groupId>org.neo4j</groupId>
-			<artifactId>neo4j-graph-algo</artifactId>
-			<version>${neo4j.version}</version>
-			<exclusions>
-				<exclusion>
-					<artifactId>geronimo-jta_1.1_spec</artifactId>
-					<groupId>org.apache.geronimo.specs</groupId>
-				</exclusion>
-			</exclusions>
-		</dependency>
-		<dependency>
-			<groupId>org.neo4j</groupId>
-			<artifactId>neo4j-graph-matching</artifactId>
-			<version>${neo4j.version}</version>
-			<exclusions>
-				<exclusion>
-					<artifactId>geronimo-jta_1.1_spec</artifactId>
-					<groupId>org.apache.geronimo.specs</groupId>
-				</exclusion>
-			</exclusions>
-		</dependency>
-		<dependency>
-			<groupId>org.neo4j</groupId>
-			<artifactId>neo4j-lucene-index</artifactId>
-			<version>${neo4j.version}</version>
-			<exclusions>
-				<exclusion>
-					<artifactId>geronimo-jta_1.1_spec</artifactId>
-					<groupId>org.apache.geronimo.specs</groupId>
-				</exclusion>
-			</exclusions>
-		</dependency>
-		<dependency>
-			<groupId>org.neo4j</groupId>
-			<artifactId>neo4j-cypher</artifactId>
-			<version>${neo4j.version}</version>
-			<exclusions>
-				<exclusion>
-					<artifactId>geronimo-jta_1.1_spec</artifactId>
-					<groupId>org.apache.geronimo.specs</groupId>
-				</exclusion>
-			</exclusions>
-		</dependency>
-		<dependency>
-			<groupId>org.neo4j</groupId>
-			<artifactId>neo4j-jmx</artifactId>
-			<version>${neo4j.version}</version>
-			<exclusions>
-				<exclusion>
-					<artifactId>geronimo-jta_1.1_spec</artifactId>
-					<groupId>org.apache.geronimo.specs</groupId>
-				</exclusion>
-			</exclusions>
-		</dependency>
-		<!-- JCA API -->
-		<dependency>
-			<groupId>org.jboss.ironjacamar</groupId>
-			<artifactId>ironjacamar-spec-api</artifactId>
-			<version>1.0.0.Final</version>
-			<scope>provided</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.jboss.javaee</groupId>
-			<artifactId>jboss-transaction-api</artifactId>
-			<version>1.0.1.GA</version>
-			<scope>provided</scope>
-		</dependency>
-		<!-- Tests -->
-		<dependency>
-			<groupId>junit</groupId>
-			<artifactId>junit</artifactId>
-			<scope>test</scope>
-		</dependency>
-	</dependencies>
-
 </project>

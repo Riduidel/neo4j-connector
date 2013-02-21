@@ -3,44 +3,29 @@
 	<parent>
 		<groupId>com.netoprise</groupId>
 		<artifactId>neo4j-connector-parent</artifactId>
-		<version>0.3-SNAPSHOT</version>
+		<version>1.6-SNAPSHOT</version>
 		<relativePath>../pom.xml</relativePath>
 	</parent>
 	<modelVersion>4.0.0</modelVersion>
 	<artifactId>neo4j-connector-api</artifactId>
+	<description>Api defining the various operations available.
+This JAR is to be used by all projects wishing to access a neo4j graph through JCA connector architecture.</description>
 	<packaging>jar</packaging>
-	<url>http://repository.jboss.org</url>
 
 	<dependencies>
 		<!-- Neo4j -->
 		<dependency>
 			<groupId>org.neo4j</groupId>
 			<artifactId>neo4j-graph-algo</artifactId>
-			<version>${neo4j.version}</version>
-			<exclusions>
-				<exclusion>
-					<artifactId>geronimo-jta_1.1_spec</artifactId>
-					<groupId>org.apache.geronimo.specs</groupId>
-				</exclusion>
-			</exclusions>
 		</dependency>
 		<dependency>
 			<groupId>org.neo4j</groupId>
 			<artifactId>neo4j-kernel</artifactId>
-			<version>${neo4j.version}</version>
-			<exclusions>
-				<exclusion>
-					<artifactId>geronimo-jta_1.1_spec</artifactId>
-					<groupId>org.apache.geronimo.specs</groupId>
-				</exclusion>
-			</exclusions>
 		</dependency>
 		<!-- JCA API -->
 		<dependency>
 			<groupId>org.jboss.ironjacamar</groupId>
 			<artifactId>ironjacamar-spec-api</artifactId>
-			<version>1.0.0.Final</version>
-			<scope>provided</scope>
 		</dependency>
 	</dependencies>
 

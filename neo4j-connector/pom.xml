@@ -4,13 +4,13 @@
 	<parent>
 		<groupId>com.netoprise</groupId>
 		<artifactId>neo4j-connector-parent</artifactId>
-		<version>0.3-SNAPSHOT</version>
+		<version>1.6-SNAPSHOT</version>
 	</parent>
 
 	<modelVersion>4.0.0</modelVersion>
 	<artifactId>neo4j-connector</artifactId>
+	<description>Effective RAR connector that is to be deployed in a JavaEE compliant application server.</description>
 	<packaging>rar</packaging>
-	<url>http://repository.jboss.org</url>
 
 	<build>
 		<finalName>${artifactId}</finalName>
@@ -144,24 +144,22 @@
 			<groupId>org.apache.lucene</groupId>
 			<artifactId>lucene-core</artifactId>
 			<version>3.5.0</version>
+			<scope>test</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.scala-lang</groupId>
 			<artifactId>scala-library</artifactId>
 			<version>2.9.0-1</version>
+			<scope>test</scope>
 		</dependency>
 		<!-- JCA API -->
 		<dependency>
 			<groupId>org.jboss.ironjacamar</groupId>
 			<artifactId>ironjacamar-spec-api</artifactId>
-			<version>1.0.0.Final</version>
-			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.jboss.javaee</groupId>
 			<artifactId>jboss-transaction-api</artifactId>
-			<version>1.0.1.GA</version>
-			<scope>provided</scope>
 		</dependency>
 		<!-- Tests -->
 		<dependency>
@@ -173,7 +171,6 @@
 			<groupId>org.neo4j</groupId>
 			<artifactId>neo4j-kernel</artifactId>
 			<scope>test</scope>
-			<version>${neo4j.version}</version>
 		</dependency>
 		<!-- Arquillian -->
 		<dependency>
@@ -193,5 +190,4 @@
 			<scope>test</scope>
 		</dependency>
 	</dependencies>
-
 </project>

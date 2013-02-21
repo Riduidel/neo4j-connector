@@ -6,8 +6,9 @@
 	<groupId>com.netoprise</groupId>
 	<artifactId>neo4j-connector-parent</artifactId>
 	<packaging>pom</packaging>
-	<version>0.3-SNAPSHOT</version>
-	<url>http://repository.jboss.org</url>
+	<version>1.6-SNAPSHOT</version>
+	<url>https://github.com/alexsmirnov/neo4j-connector</url>
+	<description>parent module allowing centralization of some common aspects of that project</description>
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<arquillian.version>1.0.0.CR7</arquillian.version>
@@ -44,6 +45,19 @@
 				<type>pom</type>
 				<scope>import</scope>
 			</dependency>
+			<!-- JCA API -->
+			<dependency>
+				<groupId>org.jboss.ironjacamar</groupId>
+				<artifactId>ironjacamar-spec-api</artifactId>
+				<version>1.0.0.Final</version>
+				<scope>provided</scope>
+			</dependency>
+			<dependency>
+				<groupId>org.jboss.javaee</groupId>
+				<artifactId>jboss-transaction-api</artifactId>
+				<version>1.0.1.GA</version>
+				<scope>provided</scope>
+			</dependency>
 			<!-- Graph database -->
 			<dependency>
 				<groupId>org.neo4j</groupId>
@@ -51,6 +65,73 @@
 				<version>${neo4j.version}</version>
 				<type>pom</type>
 				<scope>import</scope>
+			</dependency>
+			<!-- Neo4j -->
+			<dependency>
+				<groupId>org.neo4j</groupId>
+				<artifactId>neo4j-graph-algo</artifactId>
+				<version>${neo4j.version}</version>
+				<exclusions>
+					<exclusion>
+						<artifactId>geronimo-jta_1.1_spec</artifactId>
+						<groupId>org.apache.geronimo.specs</groupId>
+					</exclusion>
+				</exclusions>
+			</dependency>
+			<dependency>
+				<groupId>org.neo4j</groupId>
+				<artifactId>neo4j-kernel</artifactId>
+				<version>${neo4j.version}</version>
+				<exclusions>
+					<exclusion>
+						<artifactId>geronimo-jta_1.1_spec</artifactId>
+						<groupId>org.apache.geronimo.specs</groupId>
+					</exclusion>
+				</exclusions>
+			</dependency>
+			<dependency>
+				<groupId>org.neo4j</groupId>
+				<artifactId>neo4j-graph-matching</artifactId>
+				<version>${neo4j.version}</version>
+				<exclusions>
+					<exclusion>
+						<artifactId>geronimo-jta_1.1_spec</artifactId>
+						<groupId>org.apache.geronimo.specs</groupId>
+					</exclusion>
+				</exclusions>
+			</dependency>
+			<dependency>
+				<groupId>org.neo4j</groupId>
+				<artifactId>neo4j-lucene-index</artifactId>
+				<version>${neo4j.version}</version>
+				<exclusions>
+					<exclusion>
+						<artifactId>geronimo-jta_1.1_spec</artifactId>
+						<groupId>org.apache.geronimo.specs</groupId>
+					</exclusion>
+				</exclusions>
+			</dependency>
+			<dependency>
+				<groupId>org.neo4j</groupId>
+				<artifactId>neo4j-cypher</artifactId>
+				<version>${neo4j.version}</version>
+				<exclusions>
+					<exclusion>
+						<artifactId>geronimo-jta_1.1_spec</artifactId>
+						<groupId>org.apache.geronimo.specs</groupId>
+					</exclusion>
+				</exclusions>
+			</dependency>
+			<dependency>
+				<groupId>org.neo4j</groupId>
+				<artifactId>neo4j-jmx</artifactId>
+				<version>${neo4j.version}</version>
+				<exclusions>
+					<exclusion>
+						<artifactId>geronimo-jta_1.1_spec</artifactId>
+						<groupId>org.apache.geronimo.specs</groupId>
+					</exclusion>
+				</exclusions>
 			</dependency>
 			<!-- Tests -->
 			<dependency>
