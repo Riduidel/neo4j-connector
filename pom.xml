@@ -14,6 +14,7 @@
 		<arquillian.version>1.0.0.CR7</arquillian.version>
 		<jbossas.version>7.0.2.Final</jbossas.version>
 		<neo4j.version>1.6</neo4j.version>
+		<shaded.connector.classifier>shaded-with-neo4j-${neo4j.version}</shaded.connector.classifier>
 	</properties>
 	<scm>
 		<developerConnection>scm:git:git@github.com:alexsmirnov/neo4j-connector.git</developerConnection>
