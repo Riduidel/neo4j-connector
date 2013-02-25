@@ -11,7 +11,7 @@
 	<description>parent module allowing centralization of some common aspects of that project</description>
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<arquillian.version>1.0.0.CR7</arquillian.version>
+		<arquillian.version>1.0.0.CR4</arquillian.version>
 		<jbossas.version>7.0.2.Final</jbossas.version>
 		<neo4j.version>1.6</neo4j.version>
 		<shaded.connector.classifier>shaded-with-neo4j-${neo4j.version}</shaded.connector.classifier>
@@ -22,8 +22,8 @@
 	</scm>
 	<modules>
 		<module>neo4j-connector-api</module>
-		<module>neo4j-connector-impl</module>
-		<module>neo4j-connector</module>
+		<module>neo4j-connector-impl-parent</module>
+		<module>neo4j-connector-rar-parent</module>
 	</modules>
 	<dependencyManagement>
 		<dependencies>

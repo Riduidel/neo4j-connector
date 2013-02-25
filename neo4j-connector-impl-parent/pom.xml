@@ -1,0 +1,17 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>com.netoprise</groupId>
+    <artifactId>neo4j-connector-parent</artifactId>
+    <version>1.6-SNAPSHOT</version>
+  </parent>
+  <artifactId>neo4j-connector-impl-parent</artifactId>
+  <packaging>pom</packaging>
+  <description>Parent for all connector implementations</description>
+	<modules>
+		<module>neo4j-connector-impl-1.5</module>
+		<module>neo4j-connector-impl-1.6</module>
+		<module>neo4j-connector-impl-1.7</module>
+		<module>neo4j-connector-impl-1.8</module>
+	</modules>
+</project>
