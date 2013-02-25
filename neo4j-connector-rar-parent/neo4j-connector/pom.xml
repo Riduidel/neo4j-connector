@@ -1,36 +1,31 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-	<modelVersion>4.0.0</modelVersion>
-	<parent>
-		<groupId>com.netoprise</groupId>
-		<artifactId>neo4j-connector-impl-parent</artifactId>
-		<version>1.6-SNAPSHOT</version>
-	</parent>
-	<artifactId>neo4j-connector-impl</artifactId>
-	<packaging>pom</packaging>
-	<description>Compatibility module ensuring previous code can "quite" work</description>
-	<properties>
-		<dependencies.directory>${project.build.directory}/dependencies</dependencies.directory>
-	</properties>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>com.netoprise</groupId>
+    <artifactId>neo4j-connector-rar-parent</artifactId>
+    <version>1.6-SNAPSHOT</version>
+  </parent>
+  <artifactId>neo4j-connector</artifactId>
+  <packaging>pom</packaging>
 	<dependencies>
 		<dependency>
 			<groupId>${project.groupId}</groupId>
-			<artifactId>${project.artifactId}-1.5</artifactId>
+			<artifactId>neo4j-connector-rar-1.5</artifactId>
 			<version>${project.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>${project.groupId}</groupId>
-			<artifactId>${project.artifactId}-1.6</artifactId>
+			<artifactId>neo4j-connector-rar-1.6</artifactId>
 			<version>${project.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>${project.groupId}</groupId>
-			<artifactId>${project.artifactId}-1.7</artifactId>
+			<artifactId>neo4j-connector-rar-1.7</artifactId>
 			<version>${project.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>${project.groupId}</groupId>
-			<artifactId>${project.artifactId}-1.8</artifactId>
+			<artifactId>neo4j-connector-rar-1.8</artifactId>
 			<version>${project.version}</version>
 		</dependency>
 	</dependencies>
@@ -68,28 +63,28 @@
 						<configuration>
 							<artifacts>
 								<artifact>
-									<file>neo4j-connector-impl-1.5.jar</file>
-									<type>jar</type>
+									<file>neo4j-connector-rar-1.5.jar</file>
+									<type>rar</type>
 									<classifier>1.5</classifier>
 								</artifact>
 								<artifact>
-									<file>neo4j-connector-impl-1.6.jar</file>
-									<type>jar</type>
+									<file>neo4j-connector-rar-1.6.jar</file>
+									<type>rar</type>
 									<classifier>1.6</classifier>
 								</artifact>
 								<!--  for maximum compatibility, the 1.6 version is attached as default jar artifact -->
 								<artifact>
-									<file>neo4j-connector-impl-1.6.jar</file>
-									<type>jar</type>
+									<file>neo4j-connector-rar-1.6.jar</file>
+									<type>rar</type>
 								</artifact>
 								<artifact>
-									<file>neo4j-connector-impl-1.7.jar</file>
-									<type>jar</type>
+									<file>neo4j-connector-rar-1.7.jar</file>
+									<type>rar</type>
 									<classifier>1.7</classifier>
 								</artifact>
 								<artifact>
-									<file>neo4j-connector-impl-1.8.jar</file>
-									<type>jar</type>
+									<file>neo4j-connector-rar-1.8.jar</file>
+									<type>rar</type>
 									<classifier>1.8</classifier>
 								</artifact>
 							</artifacts>

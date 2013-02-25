@@ -13,6 +13,7 @@
 		<module>neo4j-connector-rar-1.6</module>
 		<module>neo4j-connector-rar-1.7</module>
 		<module>neo4j-connector-rar-1.8</module>
+		<module>neo4j-connector</module>
 	</modules>
 	<build>
 		<finalName>${project.artifactId}</finalName>
