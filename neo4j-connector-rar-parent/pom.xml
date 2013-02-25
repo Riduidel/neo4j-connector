@@ -15,7 +15,7 @@
 		<module>neo4j-connector-rar-1.8</module>
 	</modules>
 	<build>
-		<finalName>${artifactId}</finalName>
+		<finalName>${project.artifactId}</finalName>
 		<plugins>
 			<plugin>
 				<!-- Separates the unit tests from the integration tests. -->

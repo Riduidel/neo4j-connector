@@ -14,6 +14,11 @@ Usage
 -----
 
 Check out source code from the Github neo4j-connector project and build it with Maven. Project uses some artifacts from the Jboss Maven repository, so you have to configure it before build.
+
+Notice that, if you want to have it installed to your repository, you'll have to do a 
+
+    mvn clean deploy -DaltDeploymentRepository=The_URL_To_Your_Repository
+
 Deploy connector to your application server. For Glassfish 3, there is shell script that deploys resource adapter and configures connector. All what you need is having asadmin application in the path or GLASSFISH_HOME environment variable. The connector supports some configuration options :
 
 * `dir` for the Neo4j database location 

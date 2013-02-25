@@ -18,82 +18,19 @@ are included (and should as a consequence not be used).
 	<properties>
 		<neo4j.version>1.7</neo4j.version>
 	</properties>
-	<dependencies>
-		<dependency>
-			<groupId>com.netoprise</groupId>
-			<artifactId>neo4j-connector-api</artifactId>
-		</dependency>
-		<!-- Neo4j -->
-		<dependency>
-			<groupId>org.neo4j</groupId>
-			<artifactId>neo4j-graph-algo</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.neo4j</groupId>
-			<artifactId>neo4j-graph-matching</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.neo4j</groupId>
-			<artifactId>neo4j-lucene-index</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.neo4j</groupId>
-			<artifactId>neo4j-cypher</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.neo4j</groupId>
-			<artifactId>neo4j-jmx</artifactId>
-		</dependency>
-		<!-- JCA API -->
-		<dependency>
-			<groupId>org.jboss.ironjacamar</groupId>
-			<artifactId>ironjacamar-spec-api</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.jboss.javaee</groupId>
-			<artifactId>jboss-transaction-api</artifactId>
-		</dependency>
-		<!-- Tests -->
-		<dependency>
-			<groupId>junit</groupId>
-			<artifactId>junit</artifactId>
-			<scope>test</scope>
-		</dependency>
-	</dependencies>
 	<build>
 		<plugins>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-shade-plugin</artifactId>
-				<executions>
-					<execution>
-						<phase>package</phase>
-						<goals>
-							<goal>shade</goal>
-						</goals>
-						<configuration>
-							<createDependencyReducedPom>true</createDependencyReducedPom>
-							<createSourcesJar>true</createSourcesJar>
-							<promoteTransitiveDependencies>true</promoteTransitiveDependencies>
-							<shadedArtifactAttached>true</shadedArtifactAttached>
-							<shadedClassifierName>${shaded.connector.classifier}</shadedClassifierName>
-							<filters>
-								<filter>
-									<artifact>org.neo4j:neo4j-kernel</artifact>
-									<excludes>
-										<exclude>org/neo4j/helpers/Service*</exclude>
-									</excludes>
-								</filter>
-							</filters>
-							<artifactSet>
-								<includes>
-									<include>org.neo4j:*</include>
-									<include>org.apache.lucene:*</include>
-								</includes>
-							</artifactSet>
-						</configuration>
-					</execution>
-				</executions>
+				<configuration>
+					<artifactSet>
+						<includes>
+							<include>org.neo4j:*</include>
+							<include>org.apache.lucene:*</include>
+						</includes>
+					</artifactSet>
+				</configuration>
 			</plugin>
 		</plugins>
 	</build>
