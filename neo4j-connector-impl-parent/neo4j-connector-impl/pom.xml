@@ -38,4 +38,8 @@
 			<classifier>shaded-with-neo4j-1.8</classifier>
 		</dependency>
 	</dependencies>
+	<!-- i would better had all connector impls grouped under this project, but it seems not to be possible to have two classifier versions of the same artifact
+	using a different dependency set - what I understand. However, the distinctions between the different impl versions are essentially reduced to the used neo4j 
+	version. 
+	As a consequence, having an artifact for each is clearly not optimal, but is - as of now - the only possible version -->
 </project>
