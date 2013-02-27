@@ -58,10 +58,12 @@
 					<configuration>
 						<createDependencyReducedPom>true</createDependencyReducedPom>
 						<createSourcesJar>true</createSourcesJar>
-						<generateUniqueDependencyReducedPom>true</generateUniqueDependencyReducedPom>
 						<promoteTransitiveDependencies>true</promoteTransitiveDependencies>
+						<!-- Unfortunatly, that flag could have been the perfect solution for my problem ... but it doesn't work.
+						Using it, I could have deployed all my modules under an umbrella module, allowing distinction of neo4j based only upon
+						a classifier (which IS what they're for). instead, my dependencies descriptions are incredibly cumbersome -->
+						<shadedArtifactId>neo4j-connector-impl</shadedArtifactId>
 						<shadedArtifactAttached>true</shadedArtifactAttached>
-						<shadedArtifactAttached>false</shadedArtifactAttached>
 						<shadedClassifierName>${shaded.connector.classifier}</shadedClassifierName>
 						<filters>
 							<filter>
