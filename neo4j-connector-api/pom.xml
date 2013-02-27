@@ -16,11 +16,8 @@ This JAR is to be used by all projects wishing to access a neo4j graph through J
 		<!-- Neo4j -->
 		<dependency>
 			<groupId>org.neo4j</groupId>
-			<artifactId>neo4j-graph-algo</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.neo4j</groupId>
-			<artifactId>neo4j-kernel</artifactId>
+			<artifactId>neo4j</artifactId>
+			<scope>provided</scope>
 		</dependency>
 		<!-- JCA API -->
 		<dependency>

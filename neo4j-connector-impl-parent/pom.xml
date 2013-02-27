@@ -21,26 +21,9 @@
 			<groupId>com.netoprise</groupId>
 			<artifactId>neo4j-connector-api</artifactId>
 		</dependency>
-		<!-- Neo4j -->
 		<dependency>
 			<groupId>org.neo4j</groupId>
-			<artifactId>neo4j-graph-algo</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.neo4j</groupId>
-			<artifactId>neo4j-graph-matching</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.neo4j</groupId>
-			<artifactId>neo4j-lucene-index</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.neo4j</groupId>
-			<artifactId>neo4j-cypher</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.neo4j</groupId>
-			<artifactId>neo4j-jmx</artifactId>
+			<artifactId>neo4j</artifactId>
 		</dependency>
 		<!-- JCA API -->
 		<dependency>
@@ -77,9 +60,8 @@
 						<createSourcesJar>true</createSourcesJar>
 						<generateUniqueDependencyReducedPom>true</generateUniqueDependencyReducedPom>
 						<promoteTransitiveDependencies>true</promoteTransitiveDependencies>
-						<!-- I would have loved to use the shadedArtifactId to have all these shaded artifacts available under the generic
-						neo4j-connector-impl name, but it seems "shadedArtifactId" parameter is of no use in maven-shade-plugin -->
 						<shadedArtifactAttached>true</shadedArtifactAttached>
+						<shadedArtifactAttached>false</shadedArtifactAttached>
 						<shadedClassifierName>${shaded.connector.classifier}</shadedClassifierName>
 						<filters>
 							<filter>
@@ -92,6 +74,7 @@
 						<artifactSet>
 							<includes>
 								<include>org.neo4j:*</include>
+								<include>com.netoprise:neo4j-connector-api</include>
 							</includes>
 						</artifactSet>
 					</configuration>

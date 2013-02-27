@@ -83,10 +83,5 @@
 			<version>${project.version}</version>
 			<classifier>${shaded.connector.classifier}</classifier>
 		</dependency>
-		<dependency>
-			<groupId>org.neo4j</groupId>
-			<artifactId>neo4j-kernel</artifactId>
-			<scope>test</scope>
-		</dependency>
 	</dependencies>
 </project>

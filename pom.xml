@@ -64,69 +64,6 @@
 				<groupId>org.neo4j</groupId>
 				<artifactId>neo4j</artifactId>
 				<version>${neo4j.version}</version>
-				<type>pom</type>
-				<scope>import</scope>
-			</dependency>
-			<!-- Neo4j -->
-			<dependency>
-				<groupId>org.neo4j</groupId>
-				<artifactId>neo4j-graph-algo</artifactId>
-				<version>${neo4j.version}</version>
-				<exclusions>
-					<exclusion>
-						<artifactId>geronimo-jta_1.1_spec</artifactId>
-						<groupId>org.apache.geronimo.specs</groupId>
-					</exclusion>
-				</exclusions>
-			</dependency>
-			<dependency>
-				<groupId>org.neo4j</groupId>
-				<artifactId>neo4j-kernel</artifactId>
-				<version>${neo4j.version}</version>
-				<exclusions>
-					<exclusion>
-						<artifactId>geronimo-jta_1.1_spec</artifactId>
-						<groupId>org.apache.geronimo.specs</groupId>
-					</exclusion>
-				</exclusions>
-			</dependency>
-			<dependency>
-				<groupId>org.neo4j</groupId>
-				<artifactId>neo4j-graph-matching</artifactId>
-				<version>${neo4j.version}</version>
-				<exclusions>
-					<exclusion>
-						<artifactId>geronimo-jta_1.1_spec</artifactId>
-						<groupId>org.apache.geronimo.specs</groupId>
-					</exclusion>
-				</exclusions>
-			</dependency>
-			<dependency>
-				<groupId>org.neo4j</groupId>
-				<artifactId>neo4j-lucene-index</artifactId>
-				<version>${neo4j.version}</version>
-				<exclusions>
-					<exclusion>
-						<artifactId>geronimo-jta_1.1_spec</artifactId>
-						<groupId>org.apache.geronimo.specs</groupId>
-					</exclusion>
-				</exclusions>
-			</dependency>
-			<dependency>
-				<groupId>org.neo4j</groupId>
-				<artifactId>neo4j-cypher</artifactId>
-				<version>${neo4j.version}</version>
-				<exclusions>
-					<exclusion>
-						<artifactId>geronimo-jta_1.1_spec</artifactId>
-						<groupId>org.apache.geronimo.specs</groupId>
-					</exclusion>
-				</exclusions>
-			</dependency>
-			<dependency>
-				<groupId>org.neo4j</groupId>
-				<artifactId>neo4j-jmx</artifactId>
-				<version>${neo4j.version}</version>
 				<exclusions>
 					<exclusion>
 						<artifactId>geronimo-jta_1.1_spec</artifactId>
