@@ -79,9 +79,9 @@
 	<dependencies>
 		<dependency>
 			<groupId>com.netoprise</groupId>
-			<artifactId>neo4j-connector-impl-${neo4j.version}</artifactId>
+			<artifactId>neo4j-connector-impl</artifactId>
 			<version>${project.version}</version>
-			<classifier>${shaded.connector.classifier}</classifier>
+			<classifier>${neo4j.version}</classifier>
 		</dependency>
 	</dependencies>
 </project>

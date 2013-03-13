@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<parent>
+		<groupId>com.netoprise</groupId>
+		<artifactId>neo4j-connector-impl-by-version</artifactId>
+		<version>0.4-SNAPSHOT</version>
+		<relativePath>../pom.xml</relativePath>
+	</parent>
+	<modelVersion>4.0.0</modelVersion>
+	<artifactId>neo4j-connector-impl-1.5</artifactId>
+	<description>Java implementation of that connector. This is the project in which the standard JCA concepts are mapped into neo4j realities.
+This artifact is NOT to be included in client code, but should rather be deployed as a part of neo4j-connector RAR.
+Notice that this JAR is built using maven-shade-plugin. As a consequence, once it is used in application, all its neo4j dependencies 
+are included (and should as a consequence not be used).
+</description>
+	<packaging>jar</packaging>
+	<properties>
+		<neo4j.version>1.5</neo4j.version>
+	</properties>
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-shade-plugin</artifactId>
+			</plugin>
+		</plugins>
+	</build>
+</project>

@@ -14,8 +14,7 @@
 		<arquillian.version>1.0.0.CR4</arquillian.version>
 		<jbossas.version>7.0.2.Final</jbossas.version>
 		<neo4j.version>1.6</neo4j.version>
-		<shaded.classifier.prefix>shaded-with-neo4j-</shaded.classifier.prefix>
-		<shaded.connector.classifier>${shaded.classifier.prefix}${neo4j.version}</shaded.connector.classifier>
+		<shaded.connector.classifier>shaded</shaded.connector.classifier>
 	</properties>
 	<scm>
 		<developerConnection>scm:git:git@github.com:alexsmirnov/neo4j-connector.git</developerConnection>
@@ -32,6 +31,11 @@
 			<dependency>
 				<groupId>com.netoprise</groupId>
 				<artifactId>neo4j-connector-api</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.netoprise</groupId>
+				<artifactId>neo4j-connector-impl-common</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			<dependency>
@@ -65,6 +69,7 @@
 				<groupId>org.neo4j</groupId>
 				<artifactId>neo4j</artifactId>
 				<version>${neo4j.version}</version>
+				<optional>true</optional>
 				<exclusions>
 					<exclusion>
 						<artifactId>geronimo-jta_1.1_spec</artifactId>

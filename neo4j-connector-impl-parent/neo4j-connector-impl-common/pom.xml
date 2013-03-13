@@ -1,0 +1,31 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>com.netoprise</groupId>
+		<artifactId>neo4j-connector-impl-parent</artifactId>
+		<version>0.4-SNAPSHOT</version>
+	</parent>
+	<artifactId>neo4j-connector-impl-common</artifactId>
+	<description>Module containing all code common to all versions of neo4j.
+It allows the version-specific modules to be as small as possible.</description>
+	<dependencies>
+		<dependency>
+			<groupId>com.netoprise</groupId>
+			<artifactId>neo4j-connector-api</artifactId>
+		</dependency>
+		<!-- JCA API -->
+		<dependency>
+			<groupId>org.jboss.ironjacamar</groupId>
+			<artifactId>ironjacamar-spec-api</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.jboss.javaee</groupId>
+			<artifactId>jboss-transaction-api</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.neo4j</groupId>
+			<artifactId>neo4j</artifactId>
+		</dependency>
+	</dependencies>
+</project>
