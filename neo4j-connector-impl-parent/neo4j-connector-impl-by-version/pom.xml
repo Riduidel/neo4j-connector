@@ -77,7 +77,7 @@
 								<include>org.apache.lucene:*</include>
 								<include>org.scala-lang:*</include>
 								<include>org.neo4j:*</include>
-								<include>*:${project.artifactId}</include>
+								<include>${project.groupId}:*</include>
 							</includes>
 						</artifactSet>
 					</configuration>

@@ -23,14 +23,6 @@ are included (and should as a consequence not be used).
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-shade-plugin</artifactId>
-				<configuration>
-					<artifactSet>
-						<includes>
-							<include>org.neo4j:*</include>
-							<include>org.apache.lucene:*</include>
-						</includes>
-					</artifactSet>
-				</configuration>
 			</plugin>
 		</plugins>
 	</build>
