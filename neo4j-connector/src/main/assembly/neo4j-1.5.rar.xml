@@ -1,0 +1,27 @@
+<assembly
+	xmlns="http://maven.apache.org/plugins/maven-assembly-plugin/assembly/1.1.2"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/plugins/maven-assembly-plugin/assembly/1.1.2 http://maven.apache.org/xsd/assembly-1.1.2.xsd">
+	<id>1.5</id>
+	<formats>
+		<!-- insanely, amven assembly generates rars that are jars that are zip. Cool ! -->
+		<format>rar</format>
+	</formats>
+	<includeBaseDirectory>false</includeBaseDirectory>
+	<baseDirectory>/</baseDirectory>
+	<fileSets>
+		<fileSet>
+			<directory>src/main/resources</directory>
+			<outputDirectory>/</outputDirectory>
+		</fileSet>
+	</fileSets>
+	<dependencySets>
+		<dependencySet>
+			<includes>
+				<include>${project.groupId}:neo4j-connector-impl:*:1.5:*</include>
+			</includes>
+			<unpack>false</unpack>
+			<outputDirectory>/</outputDirectory>
+		</dependencySet>
+	</dependencySets>
+</assembly>
