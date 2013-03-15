@@ -25,7 +25,6 @@
 					<artifactId>maven-shade-plugin</artifactId>
 					<configuration>
 						<createDependencyReducedPom>true</createDependencyReducedPom>
-						<createSourcesJar>true</createSourcesJar>
 						<promoteTransitiveDependencies>true</promoteTransitiveDependencies>
 						<shadedArtifactAttached>true</shadedArtifactAttached>
 					</configuration>
