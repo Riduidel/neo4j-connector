@@ -119,7 +119,11 @@ public class Neo4jManagedConnectionFactory implements ManagedConnectionFactory,
 	private String neo4jConfig;
 	@ConfigProperty
 	private String dir;
+	/**
+	 * Like for {@link Neo4jResourceAdapter#xaMode}, we have here to declare a string containing the boolean value, as glassfish is not able to use boolean config properties
+	 */
 	@ConfigProperty
+	private String xaMode;
 	private boolean xa;
 
 	/**
@@ -138,6 +142,15 @@ public class Neo4jManagedConnectionFactory implements ManagedConnectionFactory,
 
 	public void setDir(String dir) {
 		this.dir = dir;
+	}
+
+	public String getXaMode() {
+		return xaMode;
+	}
+
+	public void setXa(String xaMode) {
+		this.xaMode = xaMode;
+		setXa(Boolean.parseBoolean(xaMode));
 	}
 
 	public boolean isXa() {

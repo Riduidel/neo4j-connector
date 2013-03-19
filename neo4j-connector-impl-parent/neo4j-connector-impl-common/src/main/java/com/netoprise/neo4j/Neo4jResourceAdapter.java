@@ -51,7 +51,18 @@ public class Neo4jResourceAdapter implements ResourceAdapter {
 	@ConfigProperty(defaultValue = "/tmp/graphdb")
 	private String dir;
 
+	/**
+	 * Superseedes the initial {@link #xa} boolean property.
+	 * Mind you, if JBoss seems to support perfectly boolean connector config properties, that's absolutely not the case of Glassfish.
+	 * As a consequence, there is a boolean xa property that is accessed through this string one, which possible values are all the ones 
+	 * that {@link Boolean#parseBoolean(String)} can parse. 
+	 */
 	@ConfigProperty(defaultValue = "false")
+	private String xaMode;
+	
+	/**
+	 * Should xa transactions be used
+	 */
 	private boolean xa;
 
 	private final Set<Neo4jManagedConnectionFactory> factories = new HashSet<Neo4jManagedConnectionFactory>();
@@ -82,17 +93,10 @@ public class Neo4jResourceAdapter implements ResourceAdapter {
 		return dir;
 	}
 
-	/**
-	 * @return the xa
-	 */
 	public boolean isXa() {
 		return xa;
 	}
 
-	/**
-	 * @param xa
-	 *            the xa to set
-	 */
 	public void setXa(boolean xa) {
 		this.xa = xa;
 	}
@@ -211,6 +215,25 @@ public class Neo4jResourceAdapter implements ResourceAdapter {
 				result = dir.equals(obj.getDir());
 		}
 		return result;
+	}
+
+	/**
+	 * @return the xaMode
+	 * @category getter
+	 * @category xaMode
+	 */
+	public String getXaMode() {
+		return xaMode;
+	}
+
+	/**
+	 * @param xaMode the xaMode to set
+	 * @category setter
+	 * @category xaMode
+	 */
+	public void setXaMode(String xaMode) {
+		this.xaMode = xaMode;
+		setXa(Boolean.parseBoolean(xaMode));
 	}
 
 }
