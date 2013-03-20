@@ -22,14 +22,15 @@ Notice that, if you want to have it installed to your repository, you'll have to
 Deploy connector to your application server. For Glassfish 3, there is shell script that deploys resource adapter and configures connector. All what you need is having asadmin application in the path or GLASSFISH_HOME environment variable. The connector supports some configuration options :
 
 * `dir` for the Neo4j database location 
-* boolean `xa` property that switches adapter from Local to XA transactions.
+* boolean `xa` property that switches adapter from Local to XA transactions. Notice that, as Glassfish doesn't support boolean properties in connectors, it has to be replaced by the `string` `xaMode`.
+* All neo4j config properties can be given through a single `string`named `neo4jConfig` and for which values are given using this syntax `key1=value1;key2=vaue2`
 
-Add neo4j-connector-api library to compile your application. JCA classes loaded in the parent Classloader on the server, you don’t need neo4j classes at runtime. For maven, just add dependency to ejb or war project:
+Add `neo4j-connector-api` library to compile your application. JCA classes loaded in the parent Classloader on the server, you don’t need neo4j classes at runtime. For maven, just add dependency to ejb or war project:
 
 	<dependency>
 		<groupId>com.netoprise</groupId>
 		<artifactId>neo4j-connector-api</artifactId>
-		<version>0.1-SNAPSHOT</version>
+		<version>${neo4j-connector.version}</version>
 		<scope>provided</scope>
 	</dependency>
 
@@ -48,9 +49,36 @@ There you go – Neo4j GraphDatabaseService now available as JNDI resource!
 In the EJB services, you don’t have to start/stop transactions by hand, it will be done by container if you set apporpriate `@TransactionAttribute` for EJB/business method.
 In the XA mode, you can use JPA/SQL and Neo4j together, and container will take care for data consistency ( of course, database connection also have to use XADataSource ).
 
+Adding neo4j-connector-impl to your build environment
+-----------------------------------------------------
+
+Contrary to impl, the connector impl (and the rar, by the way) depend upon the neo4j version, starting with connector v. 0.4-SNAPSHOT and upper.
+
+Through a crafty (don't look at my poms, U mad !) use of maven-shade-plugin, these artifacts are available through some commons artifacts names :
+
+	<dependency>
+		<groupId>com.netoprise</groupId>
+		<artifactId>neo4j-connector-impl</artifactId>
+		<version>${neo4j-connector.version}</version>
+		<classifier>${neo4j.version}</classifier>
+	</dependency>
+
+Is the connector implementation jar, shaded with all that's needed to ahve it working. As a consequence, no other dependency should be pulled from maven. if it's not the case, you can fill a bug.
+
+	<dependency>
+		<groupId>com.netoprise</groupId>
+		<artifactId>neo4j-connector</artifactId>
+		<version>${neo4j-connector.version}</version>
+		<type>rar</type>
+		<classifier>${neo4j.version}</classifier>
+	</dependency>
+
+Contains the full working resource adapter for a given neo4j version.
+
+Both these artifacts are currently available for neo4j versions 1.5 to 1.8.
+
 Future plans
 ------------
 
-* Add database configuration parameters to adapter.
 * Support Neo4j High Availability cluster in the adaptor. I plan to start and configure all necessary services directly in the adapter, using Application Server cluster service where possible. Therefore, JEE application can be scaled without any changes in the code, as it supposed for JEE.
 * Provide JPA style Object to Graph mapping, most likely as the CDI extension.

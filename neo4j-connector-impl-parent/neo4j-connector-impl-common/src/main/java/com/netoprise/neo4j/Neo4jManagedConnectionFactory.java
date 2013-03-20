@@ -135,6 +135,8 @@ public class Neo4jManagedConnectionFactory implements ManagedConnectionFactory,
 
 	public String getDir() {
 		if (null == dir) {
+			if(null==ra)
+				return dir;
 			return ra.getDir();
 		}
 		return dir;
@@ -148,13 +150,13 @@ public class Neo4jManagedConnectionFactory implements ManagedConnectionFactory,
 		return xaMode;
 	}
 
-	public void setXa(String xaMode) {
+	public void setXaMode(String xaMode) {
 		this.xaMode = xaMode;
 		setXa(Boolean.parseBoolean(xaMode));
 	}
 
 	public boolean isXa() {
-		return xa || ra.isXa();
+		return xa || (ra!=null && ra.isXa());
 	}
 
 	public void setXa(boolean xa) {
@@ -206,7 +208,7 @@ public class Neo4jManagedConnectionFactory implements ManagedConnectionFactory,
 	public ManagedConnection createManagedConnection(Subject subject,
 			ConnectionRequestInfo cxRequestInfo) throws ResourceException {
 		logwriter.append("createManagedConnection()");
-//		createDatabase();
+		createDatabase();
 		connectionsCreated++;
 		return new Neo4jManagedConnection(this);
 	}
@@ -292,7 +294,7 @@ public class Neo4jManagedConnectionFactory implements ManagedConnectionFactory,
 	public void destroyManagedConnection(Neo4jManagedConnection connection) {
 		connectionsCreated--;
 		if (connectionsCreated <= 0) {
-//			shutdownDatabase();
+			shutdownDatabase();
 		}
 	}
 
@@ -377,6 +379,24 @@ public class Neo4jManagedConnectionFactory implements ManagedConnectionFactory,
 		} else {
 			return TransactionSupportLevel.LocalTransaction;
 		}
+	}
+
+	/**
+	 * @return the neo4jConfig
+	 * @category getter
+	 * @category neo4jConfig
+	 */
+	public String getNeo4jConfig() {
+		return neo4jConfig;
+	}
+
+	/**
+	 * @param neo4jConfig the neo4jConfig to set
+	 * @category setter
+	 * @category neo4jConfig
+	 */
+	public void setNeo4jConfig(String neo4jConfig) {
+		this.neo4jConfig = neo4jConfig;
 	}
 
 }

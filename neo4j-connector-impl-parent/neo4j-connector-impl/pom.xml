@@ -68,6 +68,7 @@
 											<include>*:neo4j-connector-impl-common</include>
 										</includes>
 									</artifactSet>
+									<outputDirectory>${project.build.directory}/1.5</outputDirectory>
 									<shadedClassifierName>1.5</shadedClassifierName>
 								</configuration>
 							</execution>
@@ -111,6 +112,7 @@
 											<include>*:neo4j-connector-impl-common</include>
 										</includes>
 									</artifactSet>
+									<outputDirectory>${project.build.directory}/1.6</outputDirectory>
 									<shadedClassifierName>1.6</shadedClassifierName>
 								</configuration>
 							</execution>
@@ -154,6 +156,7 @@
 											<include>*:neo4j-connector-impl-common</include>
 										</includes>
 									</artifactSet>
+									<outputDirectory>${project.build.directory}/1.7</outputDirectory>
 									<shadedClassifierName>1.7</shadedClassifierName>
 								</configuration>
 							</execution>
@@ -197,6 +200,7 @@
 											<include>*:neo4j-connector-impl-common</include>
 										</includes>
 									</artifactSet>
+									<outputDirectory>${project.build.directory}/1.8</outputDirectory>
 									<shadedClassifierName>1.8</shadedClassifierName>
 								</configuration>
 							</execution>
