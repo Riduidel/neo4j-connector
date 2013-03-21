@@ -23,7 +23,7 @@ Deploy connector to your application server. For Glassfish 3, there is shell scr
 
 * `dir` for the Neo4j database location 
 * boolean `xa` property that switches adapter from Local to XA transactions. Notice that, as Glassfish doesn't support boolean properties in connectors, it has to be replaced by the `string` `xaMode`.
-* All neo4j config properties can be given through a single `string`named `neo4jConfig` and for which values are given using this syntax `key1=value1;key2=vaue2`
+* All neo4j config properties can be given through a single `string`named `neo4jConfig` and for which values are given using this syntax `key1->value1;key2->vaue2`. **Beware** : using "=" in that configuration string would lead to unsupported behaviour, as application servers may interpret it strangely.
 
 Add `neo4j-connector-api` library to compile your application. JCA classes loaded in the parent Classloader on the server, you don’t need neo4j classes at runtime. For maven, just add dependency to ejb or war project:
 

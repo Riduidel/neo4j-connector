@@ -59,6 +59,16 @@ import com.netoprise.neo4j.connection.Neo4JConnectionImpl;
 @ConnectionDefinition(connectionFactory = Neo4JConnectionFactory.class, connectionFactoryImpl = Neo4JConnectionFactoryImpl.class, connection = GraphDatabaseService.class, connectionImpl = Neo4JConnectionImpl.class)
 public class Neo4jManagedConnectionFactory implements ManagedConnectionFactory,
 		ResourceAdapterAssociation, TransactionSupport {
+	private static final String NEO4J_CONFIG_SEPARATOR = ";";
+
+	/**
+	 * String used as equals for {@link #neo4jConfig} content.
+	 * This string is NOT the "=" character, as it may be misunderstood by application servers.
+	 * As an example, when configuring this rar using Glassfish, all properties are given using the single "--property" 
+	 * parameter, which make impossible to use neo4j config options.
+	 */
+	private static final String NEO4J_CONFIG_EQUALS = "->";
+
 	private static final Logger logger = Logger.getLogger(Neo4jManagedConnectionFactory.class.getName());
 
 	/** The serial version UID */
@@ -318,11 +328,11 @@ public class Neo4jManagedConnectionFactory implements ManagedConnectionFactory,
 			Map<String, String> config = new HashMap<String, String>();
 			// Do some double split
 			if(neo4jConfig!=null) {
-				String[] parameterPairs = neo4jConfig.split(";");
+				String[] parameterPairs = neo4jConfig.split(NEO4J_CONFIG_SEPARATOR);
 				for(String pair : parameterPairs) {
-					int equalsPos = pair.indexOf('=');
+					int equalsPos = pair.indexOf(NEO4J_CONFIG_EQUALS);
 					String key = pair.substring(0, equalsPos);
-					String value = pair.substring(equalsPos+1);
+					String value = pair.substring(equalsPos+NEO4J_CONFIG_EQUALS.length());
 					config.put(key, value);
 				}
 			}
