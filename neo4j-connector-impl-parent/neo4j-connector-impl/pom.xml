@@ -8,30 +8,7 @@
 	</parent>
 	<artifactId>neo4j-connector-impl</artifactId>
 	<packaging>jar</packaging>
-	<description>Compatibility module ensuring previous code can "quite" work</description>
-	<dependencies>
-		<dependency>
-			<groupId>com.netoprise</groupId>
-			<artifactId>neo4j-connector-impl-1.5</artifactId>
-			<version>${project.version}</version>
-			<classifier>shaded</classifier>
-		</dependency>
-	</dependencies>
-	<build>
-		<pluginManagement>
-			<plugins>
-				<plugin>
-					<groupId>org.apache.maven.plugins</groupId>
-					<artifactId>maven-shade-plugin</artifactId>
-					<configuration>
-						<createDependencyReducedPom>true</createDependencyReducedPom>
-						<promoteTransitiveDependencies>true</promoteTransitiveDependencies>
-						<shadedArtifactAttached>true</shadedArtifactAttached>
-					</configuration>
-				</plugin>
-			</plugins>
-		</pluginManagement>
-	</build>
+	<description>Unique artifact making sure it's easy to change neo4j version without changing the whole artifact list</description>
 	<profiles>
 		<profile>
 			<id>shaded-neo4j-1.5</id>
@@ -69,7 +46,7 @@
 										</includes>
 									</artifactSet>
 									<outputDirectory>${project.build.directory}/1.5</outputDirectory>
-									<shadedClassifierName>1.5</shadedClassifierName>
+									<shadedClassifierName>1_5</shadedClassifierName>
 								</configuration>
 							</execution>
 						</executions>
@@ -113,7 +90,7 @@
 										</includes>
 									</artifactSet>
 									<outputDirectory>${project.build.directory}/1.6</outputDirectory>
-									<shadedClassifierName>1.6</shadedClassifierName>
+									<shadedClassifierName>1_6</shadedClassifierName>
 								</configuration>
 							</execution>
 						</executions>
@@ -157,7 +134,7 @@
 										</includes>
 									</artifactSet>
 									<outputDirectory>${project.build.directory}/1.7</outputDirectory>
-									<shadedClassifierName>1.7</shadedClassifierName>
+									<shadedClassifierName>1_7</shadedClassifierName>
 								</configuration>
 							</execution>
 						</executions>
@@ -201,7 +178,7 @@
 										</includes>
 									</artifactSet>
 									<outputDirectory>${project.build.directory}/1.8</outputDirectory>
-									<shadedClassifierName>1.8</shadedClassifierName>
+									<shadedClassifierName>1_8</shadedClassifierName>
 								</configuration>
 							</execution>
 						</executions>

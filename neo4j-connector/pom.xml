@@ -93,7 +93,7 @@
 					<groupId>com.netoprise</groupId>
 					<artifactId>neo4j-connector-impl</artifactId>
 					<version>${project.version}</version>
-					<classifier>1.5</classifier>
+					<classifier>1_5</classifier>
 					<optional>true</optional>
 				</dependency>
 			</dependencies>
@@ -138,7 +138,7 @@
 										is invoked -->
 									<skip>false</skip>
 									<environmentVariables>
-										<connector.deployment.name>${project.build.directory}/1.5/${project.build.finalName}-1.5.rar</connector.deployment.name>
+										<connector.deployment.name>${project.build.directory}/1.5/${project.build.finalName}-1_5.rar</connector.deployment.name>
 									</environmentVariables>
 								</configuration>
 							</execution>
@@ -162,7 +162,7 @@
 					<groupId>com.netoprise</groupId>
 					<artifactId>neo4j-connector-impl</artifactId>
 					<version>${project.version}</version>
-					<classifier>1.6</classifier>
+					<classifier>1_6</classifier>
 					<optional>true</optional>
 				</dependency>
 			</dependencies>
@@ -207,7 +207,7 @@
 										is invoked -->
 									<skip>false</skip>
 									<environmentVariables>
-										<connector.deployment.name>${project.build.directory}/1.6/${project.build.finalName}-1.6.rar</connector.deployment.name>
+										<connector.deployment.name>${project.build.directory}/1.6/${project.build.finalName}-1_6.rar</connector.deployment.name>
 									</environmentVariables>
 								</configuration>
 							</execution>
@@ -231,7 +231,7 @@
 					<groupId>com.netoprise</groupId>
 					<artifactId>neo4j-connector-impl</artifactId>
 					<version>${project.version}</version>
-					<classifier>1.7</classifier>
+					<classifier>1_7</classifier>
 					<optional>true</optional>
 				</dependency>
 			</dependencies>
@@ -276,7 +276,7 @@
 										is invoked -->
 									<skip>false</skip>
 									<environmentVariables>
-										<connector.deployment.name>${project.build.directory}/1.7/${project.build.finalName}-1.7.rar</connector.deployment.name>
+										<connector.deployment.name>${project.build.directory}/1.7/${project.build.finalName}-1_7.rar</connector.deployment.name>
 									</environmentVariables>
 								</configuration>
 							</execution>
@@ -300,7 +300,7 @@
 					<groupId>com.netoprise</groupId>
 					<artifactId>neo4j-connector-impl</artifactId>
 					<version>${project.version}</version>
-					<classifier>1.8</classifier>
+					<classifier>1_8</classifier>
 					<optional>true</optional>
 				</dependency>
 			</dependencies>
@@ -345,7 +345,7 @@
 										is invoked -->
 									<skip>false</skip>
 									<environmentVariables>
-										<connector.deployment.name>${project.build.directory}/1.8/${project.build.finalName}-1.8.rar</connector.deployment.name>
+										<connector.deployment.name>${project.build.directory}/1.8/${project.build.finalName}-1_8.rar</connector.deployment.name>
 									</environmentVariables>
 								</configuration>
 							</execution>

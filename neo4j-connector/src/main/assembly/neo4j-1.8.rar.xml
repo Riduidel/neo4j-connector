@@ -2,7 +2,7 @@
 	xmlns="http://maven.apache.org/plugins/maven-assembly-plugin/assembly/1.1.2"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/plugins/maven-assembly-plugin/assembly/1.1.2 http://maven.apache.org/xsd/assembly-1.1.2.xsd">
-	<id>1.8</id>
+	<id>1_8</id>
 	<formats>
 		<!-- insanely, amven assembly generates rars that are jars that are zip. Cool ! -->
 		<format>rar</format>
@@ -18,7 +18,7 @@
 	<dependencySets>
 		<dependencySet>
 			<includes>
-				<include>${project.groupId}:neo4j-connector-impl:*:1.8:*</include>
+				<include>${project.groupId}:neo4j-connector-impl:*:1_8:*</include>
 			</includes>
 			<unpack>false</unpack>
 			<outputDirectory>/</outputDirectory>

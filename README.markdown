@@ -60,22 +60,22 @@ Through a crafty (don't look at my poms, U mad !) use of maven-shade-plugin, the
 		<groupId>com.netoprise</groupId>
 		<artifactId>neo4j-connector-impl</artifactId>
 		<version>${neo4j-connector.version}</version>
-		<classifier>${neo4j.version}</classifier>
+		<classifier>${neo4j_version_with_underscores}</classifier>
 	</dependency>
 
-Is the connector implementation jar, shaded with all that's needed to ahve it working. As a consequence, no other dependency should be pulled from maven. if it's not the case, you can fill a bug.
+Is the connector implementation jar, shaded with all that's needed to have it working. As a consequence, no other dependency should be pulled from maven. if it's not the case, you can fill a bug.
 
 	<dependency>
 		<groupId>com.netoprise</groupId>
 		<artifactId>neo4j-connector</artifactId>
 		<version>${neo4j-connector.version}</version>
 		<type>rar</type>
-		<classifier>${neo4j.version}</classifier>
+		<classifier>${neo4j_version_with_underscores}</classifier>
 	</dependency>
 
 Contains the full working resource adapter for a given neo4j version.
 
-Both these artifacts are currently available for neo4j versions 1.5 to 1.8.
+Both these artifacts are currently available for neo4j versions 1.5 to 1.8. Notice that, due to weird restrictions in maven repositories (and especially in Nexus), classifier can't include the "." character. As a consequence, I had to replace those version numbers with underscored one, transforming 1.5 into 1_5, and so on ...
 
 Future plans
 ------------
