@@ -182,4 +182,10 @@ public class Neo4JConnectionImpl implements Neo4jConnection {
 		mc.closeHandle(this);
 	}
 
+
+	@Override
+	public GraphDatabaseService getRawGraph() {
+		return graphDatabase;
+	}
+
 }
