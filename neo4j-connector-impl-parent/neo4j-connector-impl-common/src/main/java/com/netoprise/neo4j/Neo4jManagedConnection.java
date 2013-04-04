@@ -33,9 +33,7 @@ import javax.resource.spi.LocalTransaction;
 import javax.resource.spi.ManagedConnection;
 import javax.resource.spi.ManagedConnectionMetaData;
 import javax.security.auth.Subject;
-import javax.transaction.xa.XAException;
 import javax.transaction.xa.XAResource;
-import javax.transaction.xa.Xid;
 
 import org.neo4j.graphdb.GraphDatabaseService;
 import org.neo4j.graphdb.Transaction;
@@ -48,107 +46,7 @@ import com.netoprise.neo4j.connection.Neo4jConnection;
  * 
  * @version $Revision: $
  */
-public class Neo4jManagedConnection implements ManagedConnection {
-
-	private final class Neo4jXAResource implements XAResource {
-
-		private int timeout;
-
-		@Override
-		public void commit(Xid xid, boolean onePhase) throws XAException {
-		}
-
-		@Override
-		public void end(Xid xid, int arg1) throws XAException {
-		}
-
-		@Override
-		public void forget(Xid xid) throws XAException {
-		}
-
-		@Override
-		public int getTransactionTimeout() throws XAException {
-			return this.timeout;
-		}
-
-		@Override
-		public boolean isSameRM(XAResource arg0) throws XAException {
-			return this == arg0;
-		}
-
-		@Override
-		public int prepare(Xid xid) throws XAException {
-			return XA_OK;
-		}
-
-		@Override
-		public Xid[] recover(int arg0) throws XAException {
-			// two-phase commits not supported
-			return new Xid[0];
-		}
-
-		@Override
-		public void rollback(Xid xid) throws XAException {
-		}
-
-		@Override
-		public boolean setTransactionTimeout(int arg0) throws XAException {
-			this.timeout = arg0;
-			return true;
-		}
-
-		@Override
-		public void start(Xid xid, int flags) throws XAException {
-		}
-
-	}
-
-	/**
-	 * TODO: delegate transactions to the platform JTA, see
-	 * http://static.springsource
-	 * .org/spring/docs/2.5.x/api/org/springframework/transaction
-	 * /jta/JtaTransactionManager.html
-	 * 
-	 * @author asmirnov
-	 * 
-	 */
-	private final class Neo4jLocalTransaction implements LocalTransaction {
-
-		public boolean isActive() {
-			return null != transaction;
-		}
-
-		@Override
-		public void rollback() throws ResourceException {
-			if (null != transaction) {
-				transaction.failure();
-				finish();
-				fireRollbackEvent();
-			}
-		}
-
-		public void finish() {
-			transaction.finish();
-			transaction = null;
-		}
-
-		@Override
-		public void commit() throws ResourceException {
-			if (null != transaction) {
-				transaction.success();
-				finish();
-				fireCommitEvent();
-			}
-		}
-
-		@Override
-		public void begin() throws ResourceException {
-			transaction = managedConnectionFactory.getDatabase().beginTx();
-			fireBeginEvent();
-		}
-	}
-
-
+public class Neo4jManagedConnection implements Neo4jManagedConnectionInterface {
 
 	private Transaction transaction;
 
@@ -156,7 +54,7 @@ public class Neo4jManagedConnection implements ManagedConnection {
 	private PrintWriter logwriter;
 
 	/** ManagedConnectionFactory */
-	private Neo4jManagedConnectionFactory managedConnectionFactory;
+	private Neo4jManagedConnectionFactoryInterface managedConnectionFactory;
 
 	/** Listeners */
 	private List<ConnectionEventListener> listeners;
@@ -174,12 +72,12 @@ public class Neo4jManagedConnection implements ManagedConnection {
 	 * @param mcf
 	 *            mcf
 	 */
-	public Neo4jManagedConnection(Neo4jManagedConnectionFactory mcf) {
+	public Neo4jManagedConnection(Neo4jManagedConnectionFactoryInterface mcf) {
 		this.managedConnectionFactory = mcf;
 		this.logwriter = new PrintWriter(System.out);
 		this.listeners = new ArrayList<ConnectionEventListener>(1);
 		this.connection = null;
-		this.localTransaction = new Neo4jLocalTransaction();
+		this.localTransaction = new Neo4jLocalTransaction(this);
 		this.xaResource = new Neo4jXAResource();
 	}
 
@@ -222,9 +120,7 @@ public class Neo4jManagedConnection implements ManagedConnection {
 	 * @throws ResourceException
 	 *             generic exception if operation fails
 	 */
-	public void cleanup() throws ResourceException
-
-	{
+	public void cleanup() throws ResourceException {
 		logwriter.append("cleanup()");
 		this.connection = null;
 	}
@@ -372,6 +268,41 @@ public class Neo4jManagedConnection implements ManagedConnection {
 	public ManagedConnectionMetaData getMetaData() throws ResourceException {
 		logwriter.append("getMetaData()");
 		return new Neo4jManagedConnectionMetaData();
+	}
+
+	@Override
+	public boolean isActive() {
+		return null != transaction;
+	}
+
+	@Override
+	public void rollback() {
+		if (null != transaction) {
+			transaction.failure();
+			finish();
+			fireRollbackEvent();
+		}
+	}
+
+	@Override
+	public void finish() {
+		transaction.finish();
+		transaction = null;
+	}
+
+	@Override
+	public void commit() {
+		if (null != transaction) {
+			transaction.success();
+			finish();
+			fireCommitEvent();
+		}
+	}
+
+	@Override
+	public void begin() {
+		transaction = managedConnectionFactory.getDatabase().beginTx();
+		fireBeginEvent();
 	}
 
 }

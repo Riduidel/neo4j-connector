@@ -30,7 +30,7 @@ import javax.resource.spi.ConnectionManager;
 
 import org.neo4j.graphdb.GraphDatabaseService;
 
-import com.netoprise.neo4j.Neo4jManagedConnectionFactory;
+import com.netoprise.neo4j.AbstractNeo4jManagedConnectionFactory;
 
 /**
  * Neo4JConnectionFactoryImpl
@@ -49,7 +49,7 @@ public class Neo4JConnectionFactoryImpl implements Neo4JConnectionFactory
    private Reference reference;
 
    /** ManagedConnectionFactory */
-   private Neo4jManagedConnectionFactory mcf;
+   private AbstractNeo4jManagedConnectionFactory mcf;
 
    /** ConnectionManager */
    private ConnectionManager connectionManager;
@@ -67,7 +67,7 @@ public class Neo4JConnectionFactoryImpl implements Neo4JConnectionFactory
     * @param mcf ManagedConnectionFactory
     * @param cxManager ConnectionManager
     */
-   public Neo4JConnectionFactoryImpl(Neo4jManagedConnectionFactory mcf, ConnectionManager cxManager)
+   public Neo4JConnectionFactoryImpl(AbstractNeo4jManagedConnectionFactory mcf, ConnectionManager cxManager)
    {
       this.mcf = mcf;
       this.connectionManager = cxManager;

@@ -14,8 +14,8 @@ import com.netoprise.neo4j.connection.Neo4jConnection;
 
 @Stateless
 @LocalBean
-@Resource(mappedName=Neo4jClient.NEO4J_NAME,name="Neo4j",type=Neo4JConnectionFactory.class)
-public class Neo4jClient {
+@Resource(mappedName=Neo4jStatelessClient.NEO4J_NAME,name="Neo4j",type=Neo4JConnectionFactory.class)
+public class Neo4jStatelessClient {
 	
 	public static final String NEO4J_NAME = "java:/eis/Neo4j";
 	

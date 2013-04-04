@@ -21,26 +21,18 @@
  */
 package com.netoprise.neo4j;
 
-import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
-import java.util.Properties;
 import java.util.Set;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.resource.ResourceException;
-import javax.resource.spi.ConfigProperty;
 import javax.resource.spi.ConnectionDefinition;
 import javax.resource.spi.ConnectionManager;
 import javax.resource.spi.ConnectionRequestInfo;
 import javax.resource.spi.ManagedConnection;
-import javax.resource.spi.ManagedConnectionFactory;
-import javax.resource.spi.ResourceAdapter;
-import javax.resource.spi.ResourceAdapterAssociation;
-import javax.resource.spi.TransactionSupport;
 import javax.security.auth.Subject;
 
 import org.neo4j.graphdb.GraphDatabaseService;
@@ -57,121 +49,12 @@ import com.netoprise.neo4j.connection.Neo4JConnectionImpl;
  * @version $Revision: $
  */
 @ConnectionDefinition(connectionFactory = Neo4JConnectionFactory.class, connectionFactoryImpl = Neo4JConnectionFactoryImpl.class, connection = GraphDatabaseService.class, connectionImpl = Neo4JConnectionImpl.class)
-public class Neo4jManagedConnectionFactory implements ManagedConnectionFactory,
-		ResourceAdapterAssociation, TransactionSupport {
-	private static final String NEO4J_CONFIG_SEPARATOR = ";";
-
-	/**
-	 * String used as equals for {@link #neo4jConfig} content.
-	 * This string is NOT the "=" character, as it may be misunderstood by application servers.
-	 * As an example, when configuring this rar using Glassfish, all properties are given using the single "--property" 
-	 * parameter, which make impossible to use neo4j config options.
-	 */
-	private static final String NEO4J_CONFIG_EQUALS = "->";
-
+public class Neo4jManagedConnectionFactory extends AbstractNeo4jManagedConnectionFactory {
 	private static final Logger logger = Logger.getLogger(Neo4jManagedConnectionFactory.class.getName());
 
 	/** The serial version UID */
 	private static final long serialVersionUID = 1L;
 
-	private static final String PROPERTIES_FILE_NAME = "/neo4j-connector.properties";
-
-
-	private static String transactionManagerImplementation;
-
-
-	private static Properties properties;
-
-	/**
-	 * A method allowing loading the key from a property file, instead of referring directly to one of neo4j class.
-	 * This method exists solely for malking sure there is no dependency between this class and a code that depends upon a neo4j version.
-	 * @return the value of {@link Config#TXMANAGER_IMPLEMENTATION} ... which package unfortunatly depends upon neo4j version. 
-	 */
-	private static String getNeo4jTransactionManagerImplementationKey() {
-		if(transactionManagerImplementation==null) {
-			transactionManagerImplementation = getProperties().getProperty("Config.TXMANAGER_IMPLEMENTATION", 
-							"tx_manager_impl" /* default value has been extracted from neo4j 1.5, and is unchanged in neo4j 1.8 */);
-		}
-		return transactionManagerImplementation;
-	}
-
-	/**
-	 * Load a constant properties file that should be in 
-	 * @return
-	 */
-	private static Properties getProperties() {
-		if(properties==null) {
-			Properties used = new Properties();
-			try {
-				used.load(Neo4jManagedConnectionFactory.class.getResourceAsStream(PROPERTIES_FILE_NAME));
-				properties = used;
-			} catch (IOException e) {
-				logger.log(Level.SEVERE, "unable to load properties from "
-								+PROPERTIES_FILE_NAME+" using resource path "
-								+Neo4jManagedConnectionFactory.class.getResource(PROPERTIES_FILE_NAME),
-								e);
-			}
-		}
-		return properties;
-	}
-
-	/** The resource adapter */
-	private Neo4jResourceAdapter ra;
-
-	/** The logwriter */
-	private PrintWriter logwriter;
-
-	private GraphDatabaseService database;
-
-	private int connectionsCreated = 0;
-
-	@ConfigProperty
-	private String neo4jConfig;
-	@ConfigProperty
-	private String dir;
-	/**
-	 * Like for {@link Neo4jResourceAdapter#xaMode}, we have here to declare a string containing the boolean value, as glassfish is not able to use boolean config properties
-	 */
-	@ConfigProperty
-	private String xaMode;
-	private boolean xa;
-
-	/**
-	 * Default constructor
-	 */
-	public Neo4jManagedConnectionFactory() {
-		this.logwriter = new PrintWriter(System.out);
-	}
-
-	public String getDir() {
-		if (null == dir) {
-			if(null==ra)
-				return dir;
-			return ra.getDir();
-		}
-		return dir;
-	}
-
-	public void setDir(String dir) {
-		this.dir = dir;
-	}
-
-	public String getXaMode() {
-		return xaMode;
-	}
-
-	public void setXaMode(String xaMode) {
-		this.xaMode = xaMode;
-		setXa(Boolean.parseBoolean(xaMode));
-	}
-
-	public boolean isXa() {
-		return xa || (ra!=null && ra.isXa());
-	}
-
-	public void setXa(boolean xa) {
-		this.xa = xa;
-	}
 
 	/**
 	 * Creates a Connection Factory instance.
@@ -254,131 +137,10 @@ public class Neo4jManagedConnectionFactory implements ManagedConnectionFactory,
 		return result;
 	}
 
-	/**
-	 * Get the log writer for this ManagedConnectionFactory instance.
-	 * 
-	 * @return PrintWriter
-	 * @throws ResourceException
-	 *             generic exception
-	 */
-	public PrintWriter getLogWriter() throws ResourceException {
-		logwriter.append("getLogWriter()");
-		return logwriter;
-	}
-
-	/**
-	 * Set the log writer for this ManagedConnectionFactory instance.
-	 * 
-	 * @param out
-	 *            PrintWriter - an out stream for error logging and tracing
-	 * @throws ResourceException
-	 *             generic exception
-	 */
-	public void setLogWriter(PrintWriter out) throws ResourceException {
-		logwriter.append("setLogWriter()");
-		logwriter = out;
-	}
-
-	/**
-	 * Get the resource adapter
-	 * 
-	 * @return The handle
-	 */
-	public Neo4jResourceAdapter getResourceAdapter() {
-		logwriter.append("getResourceAdapter()");
-		return ra;
-	}
-
-	/**
-	 * Set the resource adapter
-	 * 
-	 * @param ra
-	 *            The handle
-	 */
-	public void setResourceAdapter(ResourceAdapter ra) {
-		logwriter.append("setResourceAdapter()");
-		this.ra = (Neo4jResourceAdapter) ra;
-		this.ra.addFactory(this);
-	}
-
 	public void destroyManagedConnection(Neo4jManagedConnection connection) {
 		connectionsCreated--;
 		if (connectionsCreated <= 0) {
 			shutdownDatabase();
-		}
-	}
-
-	public void start() {
-		createDatabase();
-	}
-
-	public void stop() {
-		shutdownDatabase();
-	}
-
-	private void shutdownDatabase() {
-		if (null != database) {
-			database.shutdown();
-			database = null;
-		}
-	}
-
-	private void createDatabase() {
-		if (null == database) {
-			Map<String, String> config = new HashMap<String, String>();
-			// Do some double split
-			if(neo4jConfig!=null) {
-				String[] parameterPairs = neo4jConfig.split(NEO4J_CONFIG_SEPARATOR);
-				for(String pair : parameterPairs) {
-					int equalsPos = pair.indexOf(NEO4J_CONFIG_EQUALS);
-					String key = pair.substring(0, equalsPos);
-					String value = pair.substring(equalsPos+NEO4J_CONFIG_EQUALS.length());
-					config.put(key, value);
-				}
-			}
-			// XA config is always done after manual parameter passing to override it
-			if (isXa()) {
-				config.put(getNeo4jTransactionManagerImplementationKey(),
-						Constants.JEE_JTA);
-			}
-			database = new EmbeddedGraphDatabase(getDir(), config);
-		}
-	}
-
-	/**
-	 * @return the database
-	 */
-	public GraphDatabaseService getDatabase() {
-		return database;
-	}
-
-	/**
-	 * Returns a hash code value for the object.
-	 * 
-	 * @return A hash code value for this object.
-	 */
-	@Override
-	public int hashCode() {
-		int result = 17;
-		return result;
-	}
-
-	/**
-	 * Indicates whether some other object is equal to this one.
-	 * 
-	 * @param other
-	 *            The reference object with which to compare.
-	 * @return true if this object is the same as the obj argument, false
-	 *         otherwise.
-	 */
-	@Override
-	public boolean equals(Object other) {
-		if (other == null) {
-			return false;
-		} else if (other == this) {
-			return true;
-		} else {
-			return false;
 		}
 	}
 
@@ -389,24 +151,6 @@ public class Neo4jManagedConnectionFactory implements ManagedConnectionFactory,
 		} else {
 			return TransactionSupportLevel.LocalTransaction;
 		}
-	}
-
-	/**
-	 * @return the neo4jConfig
-	 * @category getter
-	 * @category neo4jConfig
-	 */
-	public String getNeo4jConfig() {
-		return neo4jConfig;
-	}
-
-	/**
-	 * @param neo4jConfig the neo4jConfig to set
-	 * @category setter
-	 * @category neo4jConfig
-	 */
-	public void setNeo4jConfig(String neo4jConfig) {
-		this.neo4jConfig = neo4jConfig;
 	}
 
 }

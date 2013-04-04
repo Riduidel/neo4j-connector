@@ -49,10 +49,11 @@ import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import com.netoprise.neo4j.connection.Neo4JConnectionFactory;
-
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertNotNull;
+
+import com.netoprise.neo4j.connection.Neo4JConnectionFactory;
+import com.netoprise.neo4j.connection.Neo4jConnection;
 
 /**
  * ConnectorTest
@@ -67,7 +68,11 @@ public class ConnectorTest {
 
 	@Inject
 	@EJB
-	private Neo4jClient client;
+	private Neo4jStatelessClient client;
+
+	@Inject
+	@EJB
+	private Neo4jStatefulClient other;
 
 	private static String getDeploymentSimpleName() {
 		return getDeploymentFile().getName();
@@ -122,7 +127,7 @@ public class ConnectorTest {
 	public static WebArchive createTestArchive() throws Throwable {
 		try  {
 			WebArchive returned = ShrinkWrap.create(WebArchive.class, "test.war")
-							.addClasses(Neo4jClient.class)
+							.addClasses(Neo4jStatelessClient.class, Neo4jStatefulClient.class)
 							.addAsManifestResource(EmptyAsset.INSTANCE, ArchivePaths.create("beans.xml"))
 							.addAsManifestResource(createManifest(), "MANIFEST.MF");
 			return returned;
@@ -153,6 +158,21 @@ public class ConnectorTest {
 	@OperateOnDeployment("test")
 	public void helloClient() throws Exception {
 		assertEquals("Hello world", client.sayHello("world"));
+	}
+
+	@Test
+	@OperateOnDeployment("test")
+	public void statefulHello() throws Exception {
+		other.imGonnaTalk();
+		assertEquals(Neo4jStatefulClient.MESSAGE, other.talk());
+	}
+
+	@Test
+	@OperateOnDeployment("test")
+	public void parallelHello() throws Exception {
+		other.imGonnaTalk();
+		assertEquals("Hello world", client.sayHello("world"));
+		assertEquals(Neo4jStatefulClient.MESSAGE, other.talk());
 	}
 
 	@Test

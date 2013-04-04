@@ -26,6 +26,11 @@
 			<artifactId>junit</artifactId>
 			<scope>test</scope>
 		</dependency>
+		<dependency>
+			<groupId>org.neo4j</groupId>
+			<artifactId>neo4j</artifactId>
+			<scope>test</scope>
+		</dependency>
 		<!-- Arquillian -->
 		<dependency>
 			<groupId>org.jboss.arquillian.junit</groupId>

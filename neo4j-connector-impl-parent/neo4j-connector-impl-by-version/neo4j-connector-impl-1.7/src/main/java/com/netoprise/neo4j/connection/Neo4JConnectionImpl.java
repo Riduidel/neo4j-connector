@@ -21,7 +21,10 @@
  */
 package com.netoprise.neo4j.connection;
 
+import java.util.Collection;
 import java.util.logging.Logger;
+
+import javax.transaction.TransactionManager;
 
 import org.neo4j.graphdb.GraphDatabaseService;
 import org.neo4j.graphdb.Node;
@@ -31,6 +34,20 @@ import org.neo4j.graphdb.Transaction;
 import org.neo4j.graphdb.event.KernelEventHandler;
 import org.neo4j.graphdb.event.TransactionEventHandler;
 import org.neo4j.graphdb.index.IndexManager;
+import org.neo4j.kernel.GraphDatabaseAPI;
+import org.neo4j.kernel.IdGeneratorFactory;
+import org.neo4j.kernel.KernelData;
+import org.neo4j.kernel.TransactionBuilder;
+import org.neo4j.kernel.guard.Guard;
+import org.neo4j.kernel.impl.core.KernelPanicEventGenerator;
+import org.neo4j.kernel.impl.core.LockReleaser;
+import org.neo4j.kernel.impl.core.NodeManager;
+import org.neo4j.kernel.impl.core.RelationshipTypeHolder;
+import org.neo4j.kernel.impl.persistence.PersistenceSource;
+import org.neo4j.kernel.impl.transaction.LockManager;
+import org.neo4j.kernel.impl.transaction.XaDataSourceManager;
+import org.neo4j.kernel.impl.util.StringLogger;
+import org.neo4j.kernel.info.DiagnosticsManager;
 
 import com.netoprise.neo4j.Neo4jManagedConnectionFactoryInterface;
 import com.netoprise.neo4j.Neo4jManagedConnectionInterface;
@@ -43,7 +60,7 @@ import com.netoprise.neo4j.Neo4jManagedConnectionInterface;
  * 
  * @version $Revision: $
  */
-public class Neo4JConnectionImpl implements Neo4jConnection {
+public class Neo4JConnectionImpl implements Neo4jConnection, GraphDatabaseAPI {
 	/** The logger */
 	private static Logger log = Logger.getLogger("Neo4JConnectionImpl");
 
@@ -183,6 +200,131 @@ public class Neo4JConnectionImpl implements Neo4jConnection {
 	@Override
 	public void close() {
 		mc.closeHandle(this);
+	}
+
+	/* and now, ladies and gentlemen, come the typical integration nightmare */
+	
+	@Override
+	@Deprecated
+	public NodeManager getNodeManager() {
+		return ((GraphDatabaseAPI) graphDatabase).getNodeManager();
+	}
+
+
+	@Override
+	@Deprecated
+	public LockReleaser getLockReleaser() {
+		return ((GraphDatabaseAPI) graphDatabase).getLockReleaser();
+	}
+
+
+	@Override
+	@Deprecated
+	public LockManager getLockManager() {
+		return ((GraphDatabaseAPI) graphDatabase).getLockManager();
+	}
+
+
+	@Override
+	@Deprecated
+	public XaDataSourceManager getXaDataSourceManager() {
+		return ((GraphDatabaseAPI) graphDatabase).getXaDataSourceManager();
+
+	}
+
+
+	@Override
+	@Deprecated
+	public TransactionManager getTxManager() {
+		return ((GraphDatabaseAPI) graphDatabase).getTxManager();
+	}
+
+
+	@Override
+	@Deprecated
+	public DiagnosticsManager getDiagnosticsManager() {
+		return ((GraphDatabaseAPI) graphDatabase).getDiagnosticsManager();
+	}
+
+
+	@Override
+	@Deprecated
+	public StringLogger getMessageLog() {
+		return ((GraphDatabaseAPI) graphDatabase).getMessageLog();
+	}
+
+
+	@Override
+	@Deprecated
+	public RelationshipTypeHolder getRelationshipTypeHolder() {
+		return ((GraphDatabaseAPI) graphDatabase).getRelationshipTypeHolder();
+ 
+	}
+
+
+	@Override
+	@Deprecated
+	public IdGeneratorFactory getIdGeneratorFactory() {
+		return ((GraphDatabaseAPI) graphDatabase).getIdGeneratorFactory();
+
+	}
+
+
+	@Override
+	@Deprecated
+	public String getStoreDir() {
+		return ((GraphDatabaseAPI) graphDatabase).getStoreDir();
+
+	}
+
+
+	@Override
+	@Deprecated
+	public KernelData getKernelData() {
+		return ((GraphDatabaseAPI) graphDatabase).getKernelData();
+
+	}
+
+
+	@Override
+	@Deprecated
+	public <T> T getSingleManagementBean(Class<T> type) {
+		return ((GraphDatabaseAPI) graphDatabase).getSingleManagementBean(type);
+
+	}
+
+
+	@Override
+	@Deprecated
+	public TransactionBuilder tx() {
+		return ((GraphDatabaseAPI) graphDatabase).tx();
+	}
+
+
+	@Override
+	@Deprecated
+	public PersistenceSource getPersistenceSource() {
+		return ((GraphDatabaseAPI) graphDatabase).getPersistenceSource();
+	}
+
+
+	@Override
+	@Deprecated
+	public <T> Collection<T> getManagementBeans(Class<T> type) {
+		return ((GraphDatabaseAPI) graphDatabase).getManagementBeans(type);
+	}
+
+
+	@Override
+	@Deprecated
+	public KernelPanicEventGenerator getKernelPanicGenerator() {
+		return ((GraphDatabaseAPI) graphDatabase).getKernelPanicGenerator();
+	}
+
+
+	@Override
+	public Guard getGuard() {
+		return ((GraphDatabaseAPI) graphDatabase).getGuard();
 	}
 
 }

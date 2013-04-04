@@ -65,6 +65,15 @@
 						<shadedArtifactAttached>true</shadedArtifactAttached>
 						<shadedClassifierName>shaded</shadedClassifierName>
 						<filters>
+							<!-- Neo4jConnectorImpl from common code isn't adapted to modern versions of Neo4j (namely the GraphDatabaseAPI interface).
+							As a consequence, I choose to replace it for each version of neo4j. Maybe not the smartest choice. -->
+							<filter>
+								<artifact>com.netoprise:neo4j-connector-impl-common</artifact>
+								<excludes>
+									<exclude>com/netoprise/neo4j/connection/Neo4JConnectionImpl*</exclude>
+								</excludes>
+							</filter>
+							<!-- Initial service class is to be replaced by the one provided by neo4j-connector-impl-common one -->
 							<filter>
 								<artifact>org.neo4j:neo4j-kernel</artifact>
 								<excludes>

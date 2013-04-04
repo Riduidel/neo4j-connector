@@ -65,7 +65,7 @@ public class Neo4jResourceAdapter implements ResourceAdapter {
 	 */
 	private boolean xa;
 
-	private final Set<Neo4jManagedConnectionFactory> factories = new HashSet<Neo4jManagedConnectionFactory>();
+	private final Set<Neo4jManagedConnectionFactoryInterface> factories = new HashSet<Neo4jManagedConnectionFactoryInterface>();
 
 	/**
 	 * Default constructor
@@ -101,7 +101,7 @@ public class Neo4jResourceAdapter implements ResourceAdapter {
 		this.xa = xa;
 	}
 
-	public void addFactory(Neo4jManagedConnectionFactory factory) {
+	public void addFactory(Neo4jManagedConnectionFactoryInterface factory) {
 		factories.add(factory);
 	}
 
@@ -144,7 +144,7 @@ public class Neo4jResourceAdapter implements ResourceAdapter {
 	public void start(BootstrapContext ctx)
 			throws ResourceAdapterInternalException {
 		log.info("start()");
-		for (Neo4jManagedConnectionFactory factory : factories) {
+		for (Neo4jManagedConnectionFactoryInterface factory : factories) {
 			factory.start();
 		}
 	}
@@ -155,7 +155,7 @@ public class Neo4jResourceAdapter implements ResourceAdapter {
 	 */
 	public void stop() {
 		log.info("stop()");
-		for (Neo4jManagedConnectionFactory factory : factories) {
+		for (Neo4jManagedConnectionFactoryInterface factory : factories) {
 			factory.stop();
 		}
 	}
