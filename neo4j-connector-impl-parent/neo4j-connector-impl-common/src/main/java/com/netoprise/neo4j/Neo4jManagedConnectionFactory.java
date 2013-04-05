@@ -29,6 +29,7 @@ import java.util.Set;
 import java.util.logging.Logger;
 
 import javax.resource.ResourceException;
+import javax.resource.spi.ConfigProperty;
 import javax.resource.spi.ConnectionDefinition;
 import javax.resource.spi.ConnectionManager;
 import javax.resource.spi.ConnectionRequestInfo;
@@ -54,6 +55,64 @@ public class Neo4jManagedConnectionFactory extends AbstractNeo4jManagedConnectio
 
 	/** The serial version UID */
 	private static final long serialVersionUID = 1L;
+	@ConfigProperty(defaultValue="")
+	protected String neo4jConfig;
+	@ConfigProperty(defaultValue="")
+	private String dir;
+	/**
+	 * Like for {@link Neo4jResourceAdapter#xaMode}, we have here to declare a string containing the boolean value, as glassfish is not able to use boolean config properties
+	 */
+	@ConfigProperty(defaultValue="true")
+	private String xaMode;
+	private boolean xa;
+
+	/**
+	 * @return the neo4jConfig
+	 * @category getter
+	 * @category neo4jConfig
+	 */
+	public String getNeo4jConfig() {
+		return neo4jConfig;
+	}
+
+	/**
+	 * @param neo4jConfig the neo4jConfig to set
+	 * @category setter
+	 * @category neo4jConfig
+	 */
+	public void setNeo4jConfig(String neo4jConfig) {
+		this.neo4jConfig = neo4jConfig;
+	}
+	
+	public String getDir() {
+		if (null == dir) {
+			if(null==getRa())
+				return dir;
+			return getRa().getDir();
+		}
+		return dir;
+	}
+
+	public void setDir(String dir) {
+		this.dir = dir;
+	}
+
+	public String getXaMode() {
+		return xaMode;
+	}
+
+	public void setXaMode(String xaMode) {
+		this.xaMode = xaMode;
+		setXa(Boolean.parseBoolean(xaMode));
+	}
+
+	public boolean isXa() {
+		return xa || (getRa()!=null && getRa().isXa());
+	}
+
+	public void setXa(boolean xa) {
+		this.xa = xa;
+	}
 
 
 	/**

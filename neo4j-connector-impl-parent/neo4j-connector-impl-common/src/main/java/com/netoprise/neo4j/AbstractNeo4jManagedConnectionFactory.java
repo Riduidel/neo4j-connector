@@ -24,49 +24,9 @@ public abstract class AbstractNeo4jManagedConnectionFactory implements Neo4jMana
 	protected PrintWriter logwriter;
 	protected GraphDatabaseService database;
 	protected int connectionsCreated = 0;
-	@ConfigProperty
-	protected String neo4jConfig;
-	@ConfigProperty
-	private String dir;
-	
+
 	public AbstractNeo4jManagedConnectionFactory() {
 		this.logwriter = new PrintWriter(System.out);
-	}
-	/**
-	 * Like for {@link Neo4jResourceAdapter#xaMode}, we have here to declare a string containing the boolean value, as glassfish is not able to use boolean config properties
-	 */
-	@ConfigProperty
-	private String xaMode;
-	private boolean xa;
-
-	public String getDir() {
-		if (null == dir) {
-			if(null==ra)
-				return dir;
-			return ra.getDir();
-		}
-		return dir;
-	}
-
-	public void setDir(String dir) {
-		this.dir = dir;
-	}
-
-	public String getXaMode() {
-		return xaMode;
-	}
-
-	public void setXaMode(String xaMode) {
-		this.xaMode = xaMode;
-		setXa(Boolean.parseBoolean(xaMode));
-	}
-
-	public boolean isXa() {
-		return xa || (ra!=null && ra.isXa());
-	}
-
-	public void setXa(boolean xa) {
-		this.xa = xa;
 	}
 
 	/**
@@ -146,24 +106,6 @@ public abstract class AbstractNeo4jManagedConnectionFactory implements Neo4jMana
 		}
 	}
 
-	/**
-	 * @return the neo4jConfig
-	 * @category getter
-	 * @category neo4jConfig
-	 */
-	public String getNeo4jConfig() {
-		return neo4jConfig;
-	}
-
-	/**
-	 * @param neo4jConfig the neo4jConfig to set
-	 * @category setter
-	 * @category neo4jConfig
-	 */
-	public void setNeo4jConfig(String neo4jConfig) {
-		this.neo4jConfig = neo4jConfig;
-	}
-
 	public void start() {
 		createDatabase();
 	}
@@ -193,8 +135,8 @@ public abstract class AbstractNeo4jManagedConnectionFactory implements Neo4jMana
 	private Map<String, String> createNeo4jConfigFromParameters() {
 		Map<String, String> config = new HashMap<String, String>();
 		// Do some double split
-		if(neo4jConfig!=null) {
-			String[] parameterPairs = neo4jConfig.split(Neo4jManagedConnectionFactoryInterface.NEO4J_CONFIG_SEPARATOR);
+		if(getNeo4jConfig()!=null) {
+			String[] parameterPairs = getNeo4jConfig().split(Neo4jManagedConnectionFactoryInterface.NEO4J_CONFIG_SEPARATOR);
 			for(String pair : parameterPairs) {
 				int equalsPos = pair.indexOf(Neo4jManagedConnectionFactoryInterface.NEO4J_CONFIG_EQUALS);
 				String key = pair.substring(0, equalsPos);
@@ -210,6 +152,10 @@ public abstract class AbstractNeo4jManagedConnectionFactory implements Neo4jMana
 		return config;
 	}
 
+	public abstract boolean isXa();
+
+	public abstract String getNeo4jConfig();
+
 	/**
 	 * Overridable method allowing graph database construction to be delegated to the used managed connection factory
 	 * @param config
@@ -219,10 +165,30 @@ public abstract class AbstractNeo4jManagedConnectionFactory implements Neo4jMana
 		return new EmbeddedGraphDatabase(getDir(), config);
 	}
 
+	public abstract String getDir();
+
 	/**
 	 * @return the database
 	 */
 	public GraphDatabaseService getDatabase() {
 		return database;
+	}
+
+	/**
+	 * @return the ra
+	 * @category getter
+	 * @category ra
+	 */
+	public Neo4jResourceAdapter getRa() {
+		return ra;
+	}
+
+	/**
+	 * @param ra the ra to set
+	 * @category setter
+	 * @category ra
+	 */
+	public void setRa(Neo4jResourceAdapter ra) {
+		this.ra = ra;
 	}
 }
