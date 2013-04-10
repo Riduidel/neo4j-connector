@@ -1,13 +1,18 @@
 package com.netoprise.neo4j;
 
+import java.io.File;
+import java.io.FileFilter;
 import java.io.PrintWriter;
+import java.util.Collection;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.Map;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.resource.ResourceException;
-import javax.resource.spi.ConfigProperty;
 import javax.resource.spi.ResourceAdapter;
+import javax.swing.border.EtchedBorder;
 
 import org.neo4j.graphdb.GraphDatabaseService;
 import org.neo4j.kernel.EmbeddedGraphDatabase;
@@ -16,8 +21,7 @@ import com.netoprise.neo4j.connection.Constants;
 
 public abstract class AbstractNeo4jManagedConnectionFactory implements Neo4jManagedConnectionFactoryInterface {
 	private static final Logger logger = Logger.getLogger(AbstractNeo4jManagedConnectionFactory.class.getName());
-	
-	
+
 	/** The resource adapter */
 	private Neo4jResourceAdapter ra;
 	/** The logwriter */
@@ -123,31 +127,36 @@ public abstract class AbstractNeo4jManagedConnectionFactory implements Neo4jMana
 
 	protected void createDatabase() {
 		if (null == database) {
-			Map<String, String> config = createNeo4jConfigFromParameters();
-			database = createDatabase(config);
+			synchronized (this) {
+				if (null == database) {
+					Map<String, String> config = createNeo4jConfigFromParameters();
+					database = createDatabase(config);
+				}
+			}
 		}
 	}
 
 	/**
 	 * Create a map containing neo4j config from given parameters
+	 * 
 	 * @return
 	 */
 	private Map<String, String> createNeo4jConfigFromParameters() {
 		Map<String, String> config = new HashMap<String, String>();
 		// Do some double split
-		if(getNeo4jConfig()!=null) {
+		if (getNeo4jConfig() != null) {
 			String[] parameterPairs = getNeo4jConfig().split(Neo4jManagedConnectionFactoryInterface.NEO4J_CONFIG_SEPARATOR);
-			for(String pair : parameterPairs) {
+			for (String pair : parameterPairs) {
 				int equalsPos = pair.indexOf(Neo4jManagedConnectionFactoryInterface.NEO4J_CONFIG_EQUALS);
 				String key = pair.substring(0, equalsPos);
-				String value = pair.substring(equalsPos+Neo4jManagedConnectionFactoryInterface.NEO4J_CONFIG_EQUALS.length());
+				String value = pair.substring(equalsPos + Neo4jManagedConnectionFactoryInterface.NEO4J_CONFIG_EQUALS.length());
 				config.put(key, value);
 			}
 		}
-		// XA config is always done after manual parameter passing to override it
+		// XA config is always done after manual parameter passing to override
+		// it
 		if (isXa()) {
-			config.put(PropertiesUtils.getNeo4jTransactionManagerImplementationKey(),
-					Constants.JEE_JTA);
+			config.put(PropertiesUtils.getNeo4jTransactionManagerImplementationKey(), Constants.JEE_JTA);
 		}
 		return config;
 	}
@@ -157,12 +166,19 @@ public abstract class AbstractNeo4jManagedConnectionFactory implements Neo4jMana
 	public abstract String getNeo4jConfig();
 
 	/**
-	 * Overridable method allowing graph database construction to be delegated to the used managed connection factory
+	 * Overridable method allowing graph database construction to be delegated
+	 * to the used managed connection factory
+	 * 
 	 * @param config
 	 * @return
 	 */
 	protected EmbeddedGraphDatabase createDatabase(Map<String, String> config) {
-		return new EmbeddedGraphDatabase(getDir(), config);
+		// Synchronization is done on a supposed global object
+		// Bad practice ? Maybe. Thread safe ? HELL YEAH !
+		synchronized (Object.class) {
+			EmbeddedGraphDatabase returned = new EmbeddedGraphDatabase(getDir(), config);
+			return returned;
+		}
 	}
 
 	public abstract String getDir();
@@ -184,7 +200,8 @@ public abstract class AbstractNeo4jManagedConnectionFactory implements Neo4jMana
 	}
 
 	/**
-	 * @param ra the ra to set
+	 * @param ra
+	 *            the ra to set
 	 * @category setter
 	 * @category ra
 	 */
