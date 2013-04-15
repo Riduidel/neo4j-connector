@@ -324,6 +324,17 @@ public abstract class Service
         }
     }
 
+    /**
+     * Load class using standard java6 classloader. This implementation tries to get rid of some app server limitations.
+     * Namely, Jboss 7 does not export content of META-INF/services to context class loader,
+	 * so a second call is made using current class loader (as opposed to context class loader ServiceLoader uses as default.
+	 * But, to add insult to injury, it sometimes happens instances can be found using both methods. Think as an example
+	 * about using neo4j in a JavaEE realm ... which is loaded in domain library, and not as a separate application.
+	 * For now, the only solution I've found (which is not as good as i would have liked) is to simply load
+	 * classes using JBoss method only when first method loads nothing.
+     * @param type
+     * @return
+     */
     @SuppressWarnings("unchecked")
 	private static <T> Iterable<T> java6Loader( Class<T> type )
     {
@@ -334,8 +345,8 @@ public abstract class Service
                     serviceLoaderClass
                     .getMethod( "load", Class.class )
                     .invoke( null, type );
-			// Jboss 7 does not export content of META-INF/services to context class loader,
-			// so this call adds implementations defined in Neo4j libraries from the same module.
+			if(contextClassLoaderServices.iterator().hasNext())
+				return contextClassLoaderServices;
 			Iterable<T> currentClassLoaderServices = (Iterable<T>)
                     serviceLoaderClass
                     .getMethod( "load", Class.class, ClassLoader.class )
